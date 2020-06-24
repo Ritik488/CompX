@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:huncha/Screens/login.dart';
+import 'package:huncha/Screens/signup.dart';
+
+import 'Screens/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
        
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: SignUpPage(),
       debugShowCheckedModeBanner: false,
     );
   }
