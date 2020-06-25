@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:huncha/Screens/HomePage.dart';
 import 'package:huncha/Screens/login.dart';
-import 'package:huncha/Screens/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Screens/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,9 +18,52 @@ class MyApp extends StatelessWidget {
        
         primarySwatch: Colors.blue,
       ),
-      home: SignUpPage(),
+      home: Controller(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
+class Controller extends StatefulWidget {
+  
+  @override
+  _ControllerState createState() => _ControllerState();
+}
+
+class _ControllerState extends State<Controller> {
+  String p;
+
+  isLoggedin() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var token = pref.getString('ltoken');
+    print(token);
+    if (token == null) {
+      setState(() {
+        p = 'login';
+      });
+    } else {
+      setState(() {
+        p = 'home';
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isLoggedin();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final database = Provider.of<TokenDB>(context);
+    switch (p) {
+      case 'login':
+        return LoginPage();
+      case 'home':
+        return HomePage();
+      default:
+        return LoginPage();
+    }
+  }
+}

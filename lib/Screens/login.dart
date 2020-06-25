@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
 import 'package:huncha/Helper/apis.dart';
+import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Screens/HomePage.dart';
+import 'package:huncha/Screens/signup.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,179 +45,187 @@ class _LoginPageState extends State<LoginPage> {
       }else{
         _btnController.success();
           Timer(Duration(seconds: 1),
-              () => Navigator.of(context).push(MaterialPageRoute(builder: (context)=> HomePage())));
+              () => changeScreen(context, HomePage()));
           _btnController.reset();
       } 
+    }else{
+      _btnController.reset();
     }
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              ClipPath(
-                clipper: WaveClipper2(),
-                child: Container(
-                  child: Column(),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x223aff5d), Color(0x22fe494f)])),
-                ),
-              ),
-              ClipPath(
-                clipper: WaveClipper3(),
-                child: Container(
-                  child: Column(),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x443aff5a), Color(0x44fe494d)])),
-                ),
-              ),
-              ClipPath(
-                clipper: WaveClipper1(),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Icon(
-                        Icons.av_timer,
-                        color: Colors.white,
-                        size: 60,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Huncha",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
-                      ),
-                    ],
+    return SafeArea(
+          child: Scaffold(
+        backgroundColor: Colors.white,
+        body: ListView(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                ClipPath(
+                  clipper: WaveClipper2(),
+                  child: Container(
+                    child: Column(),
+                    width: double.infinity,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Color(0x223aff5d), Color(0x22fe494f)])),
                   ),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end:Alignment.bottomRight,
-                          colors: [Colors.teal[300], Colors.deepOrange[300], Colors.blue[400]] )),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Form(
-            key: _formKey,
-            child: Column(children: <Widget>[
-              Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextFormField(
-                onChanged: (String value){},
-                cursorColor: Colors.deepOrange,
-                decoration: InputDecoration(
-                    hintText: "Email",
-                    prefixIcon: Material(
-                      elevation: 0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(
-                        Icons.email,
-                        color: Colors.brown,
-                      ),
+                ClipPath(
+                  clipper: WaveClipper3(),
+                  child: Container(
+                    child: Column(),
+                    width: double.infinity,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Color(0x443aff5a), Color(0x44fe494d)])),
+                  ),
+                ),
+                ClipPath(
+                  clipper: WaveClipper1(),
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Icon(
+                          Icons.av_timer,
+                          color: Colors.white,
+                          size: 60,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Huncha",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30),
+                        ),
+                      ],
                     ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                    validator: validateEmail,
-                    onSaved: (value){
-                      email=value;
-                    },
-              ),
+                    width: double.infinity,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end:Alignment.bottomRight,
+                            colors: [Colors.teal[300], Colors.deepOrange[300], Colors.blue[400]] )),
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextFormField(
-                onChanged: (String value){},
-                cursorColor: Colors.deepOrange,
-                decoration: InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: Material(
-                      elevation: 0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(
-                        Icons.lock,
-                        color: Colors.brown,
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                    validator: (val)=>val.isEmpty || val.length < 4
-                                        ? 'Enter a valid password'
-                                        : null, 
-                    onSaved: (value){
-                      password=value;
-                    },
-              ),
+            SizedBox(
+              height: 30,
             ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Padding(
+            Form(
+              key: _formKey,
+              child: Column(children: <Widget>[
+                Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
-              child: RoundedLoadingButton(
-                controller: _btnController,
-                color: Colors.orange[600],
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18),
+              child: Material(
+                elevation: 2.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextFormField(
+                  onChanged: (String value){},
+                  cursorColor: Colors.deepOrange,
+                  decoration: InputDecoration(
+                      hintText: "Email",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: Icon(
+                          Icons.email,
+                          color: Colors.brown,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                      validator: validateEmail,
+                      onSaved: (value){
+                        email=value;
+                      },
                 ),
-                onPressed: () {
-                  _validateInputs();
-                },
-              )),
-            ],)
-          ),
-              SizedBox(height: 20,),
-          Center(
-            child: Text("FORGOT PASSWORD ?", style: TextStyle(color:Colors.blue[400],fontSize: 12 ,fontWeight: FontWeight.w700),),
-          ),
-          SizedBox(height: 40,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Don't have an Account ? ", style: TextStyle(color:Colors.black,fontSize: 12 ,fontWeight: FontWeight.normal),),
-              Text("Sign Up ", style: TextStyle(color:Colors.blue[400], fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Material(
+                elevation: 2.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextFormField(
+                  onChanged: (String value){},
+                  cursorColor: Colors.deepOrange,
+                  decoration: InputDecoration(
+                      hintText: "Password",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: Icon(
+                          Icons.lock,
+                          color: Colors.brown,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                      validator: (val)=>val.isEmpty || val.length < 4
+                                          ? 'Enter a valid password'
+                                          : null, 
+                      onSaved: (value){
+                        password=value;
+                      },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: RoundedLoadingButton(
+                  controller: _btnController,
+                  color: Colors.orange[600],
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18),
+                  ),
+                  onPressed: () {
+                    _validateInputs();
+                  },
+                )),
+              ],)
+            ),
+                SizedBox(height: 20,),
+            Center(
+              child: Text("FORGOT PASSWORD ?", style: TextStyle(color:Colors.blue[400],fontSize: 12 ,fontWeight: FontWeight.w700),),
+            ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Don't have an Account ? ", style: TextStyle(color:Colors.black,fontSize: 12 ,fontWeight: FontWeight.normal),),
+                InkWell(
+                  onTap: (){
+                    changeScreen(context, SignUpPage());
+                  },
+                  child: Text("Sign Up ", style: TextStyle(color:Colors.blue[400], fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline ))),
 
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

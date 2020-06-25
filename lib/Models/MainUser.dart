@@ -25,7 +25,7 @@ class User {
   String email;
   int role;
   String uclass;
-  int phoneno;
+  String phoneno;
 
   User({this.sId, this.name, this.email, this.role, this.uclass, this.phoneno});
 
