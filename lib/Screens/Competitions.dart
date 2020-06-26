@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:huncha/Helper/apis.dart';
@@ -71,7 +72,11 @@ class _CompetitionsState extends State<Competitions> {
         future: _getData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
-            return CircularProgressIndicator();
+            return(
+            Center(
+              child: CircularProgressIndicator(),
+            )
+            );
           } else {
             return ListView.builder(
                 itemCount: snapshot.data.length,
@@ -92,7 +97,7 @@ class _CompetitionsState extends State<Competitions> {
                           child: Row(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
+                                padding: const EdgeInsets.only(right: 10.0, left: 30.0),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
                                   child: Image(
@@ -100,9 +105,9 @@ class _CompetitionsState extends State<Competitions> {
                                         snapshot.data[index].images==""? 'https://www.kreedon.com/wp-content/uploads/2019/05/capturing-Chess-Kreedon-1280x720.jpg':
                                         snapshot.data[index].images
                                         ),
-                                    height: 110.0,
+                                    height: 150.0,
                                     width: 100.0,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
                               ),
@@ -123,13 +128,16 @@ class _CompetitionsState extends State<Competitions> {
                                       ),
                                       Wrap(
                                         children: <Widget>[
-                                          Text(
-                                            snapshot.data[index].campaignbrief,
-                                            style: TextStyle(
-                                                color: Colors.black45,
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 15.0),
-                                          ),
+                                           Text(
+                                              snapshot.data[index].description,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black45,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 15.0),
+                                            ),
+
+
                                         ],
                                       )
                                     ],
