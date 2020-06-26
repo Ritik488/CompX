@@ -123,7 +123,7 @@ class _EntriesPageState extends State<EntriesPage> {
                   autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.airplay), hintText: 'Enter video URL'),
-                  validator: (val) => val.isEmpty ? 'Enter some data' : null,
+                  // validator: (val) => val.isEmpty ? 'Enter some data' : null,
                   onSaved: (value) {
                     videoUrl = value;
                   },
