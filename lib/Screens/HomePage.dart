@@ -37,8 +37,8 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
           child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepPurpleAccent[900],
-          elevation: 5.0,
+          backgroundColor: Colors.pink[900],
+          elevation: 10.0,
           title: Text(
             'Huncha',
             style: TextStyle(fontSize: 20.0),
@@ -81,14 +81,16 @@ class _HomePageState extends State<HomePage> {
                     width: MediaQuery.of(context).size.width,
                     child: RaisedButton(
                       elevation: 10.0,
-                      highlightElevation: 10.0,
+                      highlightElevation: 30.0,
+                      disabledElevation: 10.0,
+                      focusElevation: 10.0,
                         child: Text('New Competitions',
                             style: TextStyle(
                                 fontSize: 20.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal)),
-                        color: Colors.deepPurple[400],
-                        onPressed: ()=>changeScreen(context, Competitions()),
+                        color: Colors.pinkAccent[400],
+                        onPressed: ()=>changeScreen(context, Competitions(userId: userData.user.sId,)),
                   ))
                 ],
               )),

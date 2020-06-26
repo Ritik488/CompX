@@ -4,9 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:huncha/Helper/apis.dart';
+import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Models/CompetitionsModel.dart';
+import 'package:huncha/Screens/competitionDescription.dart';
 
 class Competitions extends StatefulWidget {
+  final String userId;
+
+  const Competitions({Key key, this.userId}) : super(key: key);
+
   @override
   _CompetitionsState createState() => _CompetitionsState();
 }
@@ -40,7 +46,7 @@ class _CompetitionsState extends State<Competitions> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.deepPurpleAccent[900],
+            backgroundColor: Colors.pink[900],
             elevation: 5.0,
             title: Text(
               'Competitions',
@@ -84,30 +90,33 @@ class _CompetitionsState extends State<Competitions> {
                   return Padding(
                       padding: EdgeInsets.all(10.0),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          changeScreen(context, CompDescription(mod: snapshot.data[index],userId: widget.userId,));
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0)),
                             color: (index % 2 == 0)
-                                ? Colors.indigo.shade300
-                                : Colors.indigo.shade100,
+                                ? Colors.pink[400]
+                                : Colors.pink[100],
                           ),
                           child: Row(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(right: 10.0, left: 30.0),
+                                padding: const EdgeInsets.all(0),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
                                   child: Image(
+                                    matchTextDirection: true,
                                     image: NetworkImage(
                                         snapshot.data[index].images==""? 'https://www.kreedon.com/wp-content/uploads/2019/05/capturing-Chess-Kreedon-1280x720.jpg':
-                                        snapshot.data[index].images
+                                        snapshot.data[index].images,
                                         ),
-                                    height: 150.0,
+                                    height: 100.0,
                                     width: 100.0,
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
@@ -129,7 +138,7 @@ class _CompetitionsState extends State<Competitions> {
                                       Wrap(
                                         children: <Widget>[
                                            Text(
-                                              snapshot.data[index].description,
+                                              snapshot.data[index].minidesc,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: Colors.black45,

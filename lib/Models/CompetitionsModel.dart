@@ -6,6 +6,7 @@ class CompetitionsModel {
   String sId;
   String name;
   String description;
+  String minidesc;
   String createdAt;
   String updatedAt;
   int iV;
@@ -18,6 +19,7 @@ class CompetitionsModel {
       this.sId,
       this.name,
       this.description,
+      this.minidesc,
       this.createdAt,
       this.updatedAt,
       this.iV});
@@ -30,6 +32,7 @@ class CompetitionsModel {
     sId = json['_id'];
     name = json['name'];
     description = json['description'];
+    minidesc = json['minidesc'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -44,6 +47,7 @@ class CompetitionsModel {
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['description'] = this.description;
+    data['minidesc'] = this.minidesc;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;

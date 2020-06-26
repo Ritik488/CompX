@@ -44,3 +44,17 @@ Future<String> signupHttp(name, email, password,phoneno, uclass) async {
   }
   
 }
+
+Future<String> submitEntries(compId, userId, imageUrl, videoUrl,message) async{
+  var response =
+   await http.post(SUBMITENTRY+compId+'/'+userId,
+    body:{
+      "message": message,
+      "imageurl":imageUrl, 
+      "videourl":videoUrl
+    }
+  );
+  print(response.statusCode);
+  print(response.body);
+  return response.statusCode.toString();
+} 

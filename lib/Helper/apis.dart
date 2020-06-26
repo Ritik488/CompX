@@ -24,3 +24,14 @@ const COMPETITIONS= BASEURL +"/add/newcompetition"; //(post request to add new c
 // 1.) 
 const ALLCOMPETITIONS= BASEURL + "/getall/competition"; //(get request to view all competition in database)
 		      //  (body:NIL)
+
+// 2.)
+const SUBMITENTRY = BASEURL+ "/save/competition/";// (post request to save entry by user in database. Pass userId and competitionId in URL)
+				// (body: {message: String, imageurl:String, videourl:String})
+				// {Test userId =>  Lakshy:- 5ef49dd6388ac40024a44706 }
+				// {Test competitionId => Competition7:- 5ef4e70150dd121a3c6dd3fe}
+
+// 3.) 
+const VIEWSUBMISSION = BASEURL + "/view/mysubmission/+userId"; //(post request to fetch user submission. Pass userId in the URL)
+			        // (body:NIL)
+			        // {Test userId => Ritik:- 5ef49cdd388ac40024a44704, Lakshy:- 5ef49dd6388ac40024a44706 }
