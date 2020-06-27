@@ -122,7 +122,7 @@ class _CompDescriptionState extends State<CompDescription> {
                         color: Colors.white,
                         fontWeight: FontWeight.normal)),
                 color: Colors.pinkAccent[400],
-                onPressed: () => changeScreen(context, EntriesPage(mod: widget.mod,userId: widget.userId,)),
+                onPressed: () => changeScreen(context, EntriesPage(mod: widget.mod,userId: widget.userId)),
               ))
         ],
       ),

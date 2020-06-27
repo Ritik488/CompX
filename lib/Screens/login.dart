@@ -37,9 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       _formKey.currentState.save();
       String loginContents = await loginhttp(LOGIN, email, password);
       if (loginContents == null) {
-        // errorController.add(ErrorAnimationType.shake);
         setState(() {
-          // hasError = true;
           _btnController.reset();
         });
       }else{

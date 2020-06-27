@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
 import 'package:huncha/Models/CompetitionsModel.dart';
@@ -23,7 +23,7 @@ class _EntriesPageState extends State<EntriesPage> {
   bool isloading = false;
   String videoUrl;
   String message;
-  bool showResponse;
+  bool showResponse = false;
   String error = '';
   final picker = ImagePicker();
   var _formKey = GlobalKey<FormState>();
@@ -41,6 +41,7 @@ class _EntriesPageState extends State<EntriesPage> {
       FormData formData = new FormData.fromMap({
         "file": await MultipartFile.fromFile(
           image.path,
+          contentType: new MediaType("image", "jpg"),
         ),
         "upload_preset": "project78",
         "cloud_name": "dcsqiv7je",
@@ -118,6 +119,7 @@ class _EntriesPageState extends State<EntriesPage> {
                         : Container(),
                   ),
                 ),
+                Text('Select only .jpg image'),
                 SizedBox(height: 30.0),
                 TextFormField(
                   autocorrect: false,
@@ -130,7 +132,6 @@ class _EntriesPageState extends State<EntriesPage> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
-                  // selectionHeightStyle: BoxHeightStyle.max,
                   autocorrect: false,
                   maxLines: 3,
                   maxLength: 200,
@@ -173,15 +174,19 @@ class _EntriesPageState extends State<EntriesPage> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           color: Colors.pinkAccent[400],
-                          onPressed: () async{
+                          onPressed: () async {
                             print(widget.mod.sId);
                             print(widget.userId);
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                              String status = await submitEntries(widget.mod.sId,
-                                  widget.userId, imageUrl, videoUrl, message);
+                              String status = await submitEntries(
+                                  widget.mod.sId,
+                                  widget.userId,
+                                  imageUrl,
+                                  videoUrl,
+                                  message);
                               print(status);
-                              if (status.compareTo(200.toString())==0) {
+                              if (status.compareTo(200.toString()) == 0) {
                                 setState(() {
                                   error =
                                       'Details has been submitted now you can go back to HomePage';
@@ -195,9 +200,13 @@ class _EntriesPageState extends State<EntriesPage> {
                             }
                           }),
                     ),
-                    showResponse ? Text(error) : Text(''),
                   ],
                 ),
+                SizedBox(height: 20.0),
+                showResponse
+                    ? Text(error,
+                        style: TextStyle(color: Colors.red, fontSize: 15.0))
+                    : Text(''),
               ],
             ),
           )),
