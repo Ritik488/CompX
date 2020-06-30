@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:huncha/Screens/Admin/adminHome.dart';
 import 'package:huncha/Screens/User/HomePage.dart';
 import 'package:huncha/Screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,15 +34,23 @@ class _ControllerState extends State<Controller> {
   isLoggedin() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var token = pref.getString('ltoken');
+    var email = pref.get('AdminEmail');
     print(token);
+    print(email);
     if (token == null) {
       setState(() {
         p = 'login';
       });
     } else {
-      setState(() {
-        p = 'home';
-      });
+      if (email == 'org.main@admin.com') {
+        setState(() {
+          p = 'homeadmin';
+        });
+      } else {
+        setState(() {
+          p = 'home';
+        });
+      }
     }
   }
 
@@ -59,6 +68,8 @@ class _ControllerState extends State<Controller> {
         return LoginPage();
       case 'home':
         return HomePage();
+      case 'homeadmin':
+        return AdminHomePage();
       default:
         return LoginPage();
     }

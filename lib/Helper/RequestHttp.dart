@@ -50,3 +50,19 @@ Future<String> submitEntries(
   print(response.body);
   return response.statusCode.toString();
 }
+
+Future<String> addCompetition(compName, compDesc, compImp, compMiniDesc,
+    compBrief, faqurl, imageurl) async {
+  var response = await http.post(COMPETITIONS, body: {
+    "name": compName,
+    "description": compDesc,
+    "important": compImp,
+    "minidesc": compMiniDesc,
+    "campaignbrief": compBrief,
+    "urls": faqurl,
+    "images": imageurl
+  });
+  print(response.statusCode);
+  print(response.body);
+  return response.statusCode.toString();
+}

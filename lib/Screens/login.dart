@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
 import 'package:huncha/Helper/apis.dart';
 import 'package:huncha/Helper/navigation.dart';
+import 'package:huncha/Screens/Admin/adminHome.dart';
 import 'package:huncha/Screens/User/HomePage.dart';
 import 'package:huncha/Screens/signup.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static final String path = "lib/src/pages/login/login7.dart";
@@ -43,8 +45,16 @@ class _LoginPageState extends State<LoginPage> {
         });
       } else {
         _btnController.success();
-        Timer(Duration(seconds: 1),
-            () => changeScreenRepacement(context, HomePage()));
+        if (email == "org.main@admin.com" && password == "msd2020") {
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setString('AdminEmail', email);
+          Timer(Duration(seconds: 1),
+              () => changeScreenRepacement(context, AdminHomePage()));
+        } else {
+          Timer(Duration(seconds: 1),
+              () => changeScreenRepacement(context, HomePage()));
+        }
+
         _btnController.reset();
       }
     } else {
