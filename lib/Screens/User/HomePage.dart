@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/navigation.dart';
-import 'package:huncha/Models/MainUser.dart';
-import 'package:huncha/Screens/Competitions.dart';
+import 'package:huncha/Models/User/MainUser.dart';
+import 'package:huncha/Screens/User/Competitions.dart';
 import 'package:huncha/Widgets/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   MainUser userData;
   String username;
   String userMail;
+  String userId;
   getUSerDetails() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String userResponse = pref.getString('Uresponse');
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       username = userData.user.name;
       userMail = userData.user.email;
+      userId = userData.user.sId;
     });
   }
 
@@ -35,12 +37,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink[900],
           elevation: 10.0,
           title: Text(
-            'Huncha',
+            'CompX',
             style: TextStyle(fontSize: 20.0),
           ),
           centerTitle: true,
@@ -48,6 +50,7 @@ class _HomePageState extends State<HomePage> {
         drawer: DrawerWidget(
           name: username,
           email: userMail,
+          userId: userId,
         ),
         body: Center(
           child: Container(
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: 'Huncha \n',
+                      text: 'CompX \n',
                       style: TextStyle(
                           fontSize: 50.0,
                           color: Colors.green[800],
@@ -67,31 +70,34 @@ class _HomePageState extends State<HomePage> {
                   RichText(
                     textAlign: TextAlign.left,
                     text: TextSpan(
-                        text: 'Huncha is a common Nepali word indicating an enthusiastic and positive response. Register and' +
-                            'upload your artwork here. All artistic expression is priceless, however sometimes feedback from others is helpflul' +
-                            ', so you will soon be able to get reviews by Huncha members and artists.\n \n',
+                        text:
+                            'Thanks for downloading this app, you can participate in the competitions running at the moment..' +
+                                'Please share your entries \n \n',
                         style: TextStyle(
                             fontSize: 20.0,
                             color: Colors.black,
                             fontWeight: FontWeight.normal)),
                   ),
                   SizedBox(
-
-                    height: 60.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: RaisedButton(
-                      elevation: 10.0,
-                      highlightElevation: 30.0,
-                      disabledElevation: 10.0,
-                      focusElevation: 10.0,
-                        child: Text('New Competitions',
+                      height: 60.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: RaisedButton(
+                        elevation: 10.0,
+                        highlightElevation: 30.0,
+                        disabledElevation: 10.0,
+                        focusElevation: 10.0,
+                        child: Text('Submit your entry',
                             style: TextStyle(
                                 fontSize: 20.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal)),
                         color: Colors.pinkAccent[400],
-                        onPressed: ()=>changeScreen(context, Competitions(userId: userData.user.sId,)),
-                  ))
+                        onPressed: () => changeScreen(
+                            context,
+                            Competitions(
+                              userId: userData.user.sId,
+                            )),
+                      ))
                 ],
               )),
         ),

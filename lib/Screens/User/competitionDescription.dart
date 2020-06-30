@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/navigation.dart';
-import 'package:huncha/Models/CompetitionsModel.dart';
-import 'package:huncha/Screens/UploadImage.dart';
+import 'package:huncha/Models/User/CompetitionsModel.dart';
+import 'package:huncha/Screens/User/UploadEntries.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CompDescription extends StatefulWidget {
@@ -122,7 +122,8 @@ class _CompDescriptionState extends State<CompDescription> {
                         color: Colors.white,
                         fontWeight: FontWeight.normal)),
                 color: Colors.pinkAccent[400],
-                onPressed: () => changeScreen(context, EntriesPage(mod: widget.mod,userId: widget.userId)),
+                onPressed: () => changeScreen(context,
+                    EntriesPage(mod: widget.mod, userId: widget.userId)),
               ))
         ],
       ),

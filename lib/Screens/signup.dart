@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
-import 'package:huncha/Helper/apis.dart';
 import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Screens/login.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -20,7 +19,6 @@ class _SignUpPageState extends State<SignUpPage> {
   String clas;
   String email;
   String password;
-
   bool succes = false;
   String validateEmail(String value) {
     Pattern pattern =
@@ -42,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void _validateInputs() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      String signupContents = await signupHttp(name, email, password, phoneNo, clas);
+      String signupContents = await signupHttp(name, email, password, phoneNo);
       if (signupContents == null) {
         setState(() {
           _btnController.reset();
@@ -107,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 20,
                         ),
                         Text(
-                          "Huncha",
+                          "CompX",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
@@ -208,39 +206,39 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
-                      child: Material(
-                        elevation: 2.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextFormField(
-                          onChanged: (String value) {},
-                          cursorColor: Colors.deepOrange,
-                          decoration: InputDecoration(
-                              hintText: "Class",
-                              prefixIcon: Material(
-                                elevation: 0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(
-                                  Icons.school,
-                                  color: Colors.brown,
-                                ),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
-                          validator: (value) =>
-                              value.isEmpty ? 'Enter a valid class' : null,
-                          onSaved: (value) {
-                            clas = value ;
-                          },
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 32),
+                    //   child: Material(
+                    //     elevation: 2.0,
+                    //     borderRadius: BorderRadius.all(Radius.circular(30)),
+                    //     child: TextFormField(
+                    //       onChanged: (String value) {},
+                    //       cursorColor: Colors.deepOrange,
+                    //       decoration: InputDecoration(
+                    //           hintText: "Class",
+                    //           prefixIcon: Material(
+                    //             elevation: 0,
+                    //             borderRadius:
+                    //                 BorderRadius.all(Radius.circular(30)),
+                    //             child: Icon(
+                    //               Icons.school,
+                    //               color: Colors.brown,
+                    //             ),
+                    //           ),
+                    //           border: InputBorder.none,
+                    //           contentPadding: EdgeInsets.symmetric(
+                    //               horizontal: 25, vertical: 13)),
+                    //       validator: (value) =>
+                    //           value.isEmpty ? 'Enter a valid class' : null,
+                    //       onSaved: (value) {
+                    //         clas = value ;
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 20,
                     ),

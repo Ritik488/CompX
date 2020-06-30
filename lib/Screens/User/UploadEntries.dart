@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
-import 'package:huncha/Models/CompetitionsModel.dart';
+import 'package:huncha/Models/User/CompetitionsModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
@@ -67,7 +67,7 @@ class _EntriesPageState extends State<EntriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Picker'),
+        title: Text('Add Details'),
         backgroundColor: Colors.pink[900],
       ),
       body: _buildBody(context),
@@ -91,7 +91,7 @@ class _EntriesPageState extends State<EntriesPage> {
                           color: Colors.grey[700])),
                 ),
                 SizedBox(height: 10.0),
-                Text('Title',
+                Text(widget.mod.name,
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
                 SizedBox(height: 10.0),
@@ -119,7 +119,6 @@ class _EntriesPageState extends State<EntriesPage> {
                         : Container(),
                   ),
                 ),
-                Text('Select only .jpg image'),
                 SizedBox(height: 30.0),
                 TextFormField(
                   autocorrect: false,

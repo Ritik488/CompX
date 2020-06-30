@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:huncha/Screens/HomePage.dart';
+import 'package:huncha/Screens/User/HomePage.dart';
 import 'package:huncha/Screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -15,7 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-       
         primarySwatch: Colors.blue,
       ),
       home: Controller(),
@@ -25,7 +23,6 @@ class MyApp extends StatelessWidget {
 }
 
 class Controller extends StatefulWidget {
-  
   @override
   _ControllerState createState() => _ControllerState();
 }

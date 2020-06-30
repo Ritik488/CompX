@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:huncha/Helper/apis.dart';
 import 'package:huncha/Helper/navigation.dart';
-import 'package:huncha/Models/CompetitionsModel.dart';
-import 'package:huncha/Screens/competitionDescription.dart';
+import 'package:huncha/Models/User/CompetitionsModel.dart';
+import 'package:huncha/Screens/User/competitionDescription.dart';
 
 class Competitions extends StatefulWidget {
   final String userId;
@@ -18,13 +18,12 @@ class Competitions extends StatefulWidget {
 }
 
 class _CompetitionsState extends State<Competitions> {
-
   Future<List<CompetitionsModel>> _getData() async {
     Response response = await get(ALLCOMPETITIONS);
     print(response.body);
     List<dynamic> data = jsonDecode(response.body);
     List<CompetitionsModel> compItems = [];
-    for(var mod in data){
+    for (var mod in data) {
       compItems.add(CompetitionsModel.fromJson(mod));
     }
     print(compItems[0]);
@@ -45,17 +44,17 @@ class _CompetitionsState extends State<Competitions> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.pink[900],
-            elevation: 5.0,
-            title: Text(
-              'Competitions',
-              style: TextStyle(fontSize: 20.0),
-            ),
-            centerTitle: true,
+        appBar: AppBar(
+          backgroundColor: Colors.pink[900],
+          elevation: 5.0,
+          title: Text(
+            'Competitions',
+            style: TextStyle(fontSize: 20.0),
           ),
-          body: _buildList(context),
-          ),
+          centerTitle: true,
+        ),
+        body: _buildList(context),
+      ),
     );
   }
 
@@ -78,11 +77,9 @@ class _CompetitionsState extends State<Competitions> {
         future: _getData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
-            return(
-            Center(
+            return (Center(
               child: CircularProgressIndicator(),
-            )
-            );
+            ));
           } else {
             return ListView.builder(
                 itemCount: snapshot.data.length,
@@ -91,7 +88,12 @@ class _CompetitionsState extends State<Competitions> {
                       padding: EdgeInsets.all(10.0),
                       child: InkWell(
                         onTap: () {
-                          changeScreen(context, CompDescription(mod: snapshot.data[index],userId: widget.userId,));
+                          changeScreen(
+                              context,
+                              CompDescription(
+                                mod: snapshot.data[index],
+                                userId: widget.userId,
+                              ));
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -108,15 +110,21 @@ class _CompetitionsState extends State<Competitions> {
                                 padding: const EdgeInsets.all(0),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
-                                  child: Image(
-                                    matchTextDirection: true,
-                                    image: NetworkImage(
-                                        snapshot.data[index].images==""? 'https://www.kreedon.com/wp-content/uploads/2019/05/capturing-Chess-Kreedon-1280x720.jpg':
-                                        snapshot.data[index].images,
-                                        ),
-                                    height: 100.0,
-                                    width: 100.0,
-                                    fit: BoxFit.fill,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20.0),
+                                        bottomLeft: Radius.circular(20.0)),
+                                    child: Image(
+                                      matchTextDirection: true,
+                                      image: NetworkImage(
+                                        snapshot.data[index].images == ""
+                                            ? 'https://www.kreedon.com/wp-content/uploads/2019/05/capturing-Chess-Kreedon-1280x720.jpg'
+                                            : snapshot.data[index].images,
+                                      ),
+                                      height: 100.0,
+                                      width: 100.0,
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -137,16 +145,14 @@ class _CompetitionsState extends State<Competitions> {
                                       ),
                                       Wrap(
                                         children: <Widget>[
-                                           Text(
-                                              snapshot.data[index].minidesc,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.black45,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 15.0),
-                                            ),
-
-
+                                          Text(
+                                            snapshot.data[index].minidesc,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black45,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15.0),
+                                          ),
                                         ],
                                       )
                                     ],

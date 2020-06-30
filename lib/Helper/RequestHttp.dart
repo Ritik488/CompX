@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:huncha/Helper/apis.dart';
-import 'package:huncha/Models/MainUser.dart';
-import 'package:huncha/Models/userModel.dart';
+import 'package:huncha/Models/User/MainUser.dart';
+import 'package:huncha/Models/User/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-Future<String> loginhttp(url, email, password) async {
+Future<bool> loginhttp(url, email, password) async {
   var response =
       await http.post(url, body: {"email": email, "password": password});
   print(response.statusCode);
@@ -18,20 +18,18 @@ Future<String> loginhttp(url, email, password) async {
     print(user.token.toString());
     pref.setString('ltoken', user.token);
     pref.setString('Uresponse', json.encode(user));
+    return true;
   }
-  return response.body;
+  return false;
 }
 
-Future<String> signupHttp(name, email, password,phoneno, uclass) async {
-  var response =
-      await http.post(SIGNUP, 
-      body: {
-        "name":name,
-        "email": email,
-        "password": password,
-        "phoneno": phoneno,
-        "Uclass": uclass
-      });
+Future<String> signupHttp(name, email, password, phoneno) async {
+  var response = await http.post(SIGNUP, body: {
+    "name": name,
+    "email": email,
+    "password": password,
+    "phoneno": phoneno,
+  });
   print(response.statusCode);
   print(response.body);
   if (response.statusCode == 200) {
@@ -39,22 +37,16 @@ Future<String> signupHttp(name, email, password,phoneno, uclass) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString('signuprsesponse', json.encode(user));
     return response.body;
-  }else{
+  } else {
     return null;
   }
-  
 }
 
-Future<String> submitEntries(compId, userId, imageUrl, videoUrl,message) async{
-  var response =
-   await http.post(SUBMITENTRY+compId+'/'+userId,
-    body:{
-      "message": message,
-      "imageurl":imageUrl, 
-      "videourl":videoUrl
-    }
-  );
+Future<String> submitEntries(
+    compId, userId, imageUrl, videoUrl, message) async {
+  var response = await http.post(SUBMITENTRY + compId + '/' + userId,
+      body: {"message": message, "imageurl": imageUrl, "videourl": videoUrl});
   print(response.statusCode);
   print(response.body);
   return response.statusCode.toString();
-} 
+}

@@ -24,17 +24,15 @@ class User {
   String name;
   String email;
   int role;
-  String uclass;
   String phoneno;
 
-  User({this.sId, this.name, this.email, this.role, this.uclass, this.phoneno});
+  User({this.sId, this.name, this.email, this.role, this.phoneno});
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];
     role = json['role'];
-    uclass = json['Uclass'];
     phoneno = json['phoneno'];
   }
 
@@ -44,7 +42,6 @@ class User {
     data['name'] = this.name;
     data['email'] = this.email;
     data['role'] = this.role;
-    data['Uclass'] = this.uclass;
     data['phoneno'] = this.phoneno;
     return data;
   }
