@@ -1,13 +1,17 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
+import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Models/User/CompetitionsModel.dart';
+import 'package:huncha/Screens/User/HomePage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:loading/loading.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class EntriesPage extends StatefulWidget {
   final CompetitionsModel mod;
@@ -19,6 +23,12 @@ class EntriesPage extends StatefulWidget {
 }
 
 class _EntriesPageState extends State<EntriesPage> {
+  final RoundedLoadingButtonController _btnController =
+      new RoundedLoadingButtonController();
+
+  TextEditingController textControl1 = TextEditingController();
+  TextEditingController textControl2 = TextEditingController();
+
   var imageUrl;
   bool isloading = false;
   String videoUrl;
@@ -121,6 +131,7 @@ class _EntriesPageState extends State<EntriesPage> {
                 ),
                 SizedBox(height: 30.0),
                 TextFormField(
+                  controller: textControl1,
                   autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.airplay), hintText: 'Enter video URL'),
@@ -131,6 +142,7 @@ class _EntriesPageState extends State<EntriesPage> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
+                  controller: textControl2,
                   autocorrect: false,
                   maxLines: 3,
                   maxLength: 200,
@@ -148,28 +160,29 @@ class _EntriesPageState extends State<EntriesPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     SizedBox(
+                      height: 50.0,
                       child: RaisedButton(
-                          elevation: 10.0,
-                          highlightElevation: 30.0,
-                          disabledElevation: 10.0,
-                          focusElevation: 10.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(color: Colors.red)),
                           child: Text('Choose Image',
                               style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           color: Colors.pinkAccent[400],
                           onPressed: () => uploadImage()),
                     ),
                     SizedBox(
-                      child: RaisedButton(
-                          elevation: 10.0,
-                          highlightElevation: 30.0,
-                          disabledElevation: 10.0,
-                          focusElevation: 10.0,
+                      width: 2,
+                    ),
+                    SizedBox(
+                      width: 160.0,
+                      child: RoundedLoadingButton(
+                          controller: _btnController,
                           child: Text('Submit Entries',
                               style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           color: Colors.pinkAccent[400],
@@ -178,24 +191,45 @@ class _EntriesPageState extends State<EntriesPage> {
                             print(widget.userId);
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                              String status = await submitEntries(
-                                  widget.mod.sId,
-                                  widget.userId,
-                                  imageUrl,
-                                  videoUrl,
-                                  message);
+                              String status;
+                              if (imageUrl == null) {
+                                String dummyImage =
+                                    'https://res.cloudinary.com/dcsqiv7je/image/upload/v1593545859/do%20not%20delete/no_image_available_e1tinz.png';
+                                status = await submitEntries(
+                                    widget.mod.sId,
+                                    widget.userId,
+                                    dummyImage,
+                                    videoUrl,
+                                    message);
+                              } else {
+                                status = await submitEntries(widget.mod.sId,
+                                    widget.userId, imageUrl, videoUrl, message);
+                              }
+
                               print(status);
                               if (status.compareTo(200.toString()) == 0) {
                                 setState(() {
                                   error =
-                                      'Details has been submitted now you can go back to HomePage';
+                                      'Details has been submitted now you will be redirected to HomePage';
                                   showResponse = true;
+                                  textControl1.clear();
+                                  textControl2.clear();
+                                  _btnController.success();
+                                  Timer(
+                                      Duration(seconds: 8),
+                                      () => changeScreenRepacement(
+                                          context, HomePage()));
                                 });
                               } else {
-                                error =
-                                    "There's some error details cant be submitted";
-                                showResponse = true;
+                                setState(() {
+                                  error =
+                                      "There's some error details cant be submitted";
+                                  showResponse = true;
+                                  _btnController.reset();
+                                });
                               }
+                            } else {
+                              _btnController.reset();
                             }
                           }),
                     ),
@@ -204,7 +238,8 @@ class _EntriesPageState extends State<EntriesPage> {
                 SizedBox(height: 20.0),
                 showResponse
                     ? Text(error,
-                        style: TextStyle(color: Colors.red, fontSize: 15.0))
+                        style:
+                            TextStyle(color: Colors.green[600], fontSize: 30.0))
                     : Text(''),
               ],
             ),

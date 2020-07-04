@@ -25,12 +25,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
-                  fit: BoxFit.fill,
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                  image: NetworkImage(
-                      'https://www.kreedon.com/wp-content/uploads/2019/05/capturing-Chess-Kreedon-1280x720.jpg'),
-                ),
+                    fit: BoxFit.fill,
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                    image: AssetImage("assets/userdrawerImg.png")),
               ),
               child: Container(
                   alignment: Alignment.center,

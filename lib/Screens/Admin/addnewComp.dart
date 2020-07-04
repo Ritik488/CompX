@@ -5,13 +5,13 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
 import 'package:huncha/Helper/navigation.dart';
-import 'package:huncha/Models/User/CompetitionsModel.dart';
 import 'package:huncha/Screens/Admin/adminHome.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:loading/loading.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AddCompetition extends StatefulWidget {
   @override
@@ -19,6 +19,14 @@ class AddCompetition extends StatefulWidget {
 }
 
 class _AddCompetitionState extends State<AddCompetition> {
+  final RoundedLoadingButtonController _btnController =
+      new RoundedLoadingButtonController();
+  TextEditingController textControl1 = TextEditingController();
+  TextEditingController textControl2 = TextEditingController();
+  TextEditingController textControl3 = TextEditingController();
+  TextEditingController textControl4 = TextEditingController();
+  TextEditingController textControl5 = TextEditingController();
+  TextEditingController textControl6 = TextEditingController();
   var imageUrl;
   bool isloading = false;
   bool showResponse = false;
@@ -112,10 +120,11 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 showResponse
                     ? Text(error,
-                        style: TextStyle(color: Colors.red, fontSize: 15.0))
+                        style: TextStyle(color: Colors.red, fontSize: 20.0))
                     : Text(''),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  controller: textControl1,
                   autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(FontAwesomeIcons.adobe),
@@ -127,6 +136,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 SizedBox(height: 30.0),
                 TextFormField(
+                  controller: textControl2,
                   autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.art_track),
@@ -138,6 +148,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
+                  controller: textControl3,
                   autocorrect: false,
                   maxLines: 2,
                   maxLength: 300,
@@ -153,6 +164,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 // SizedBox(height: 5.0),
                 TextFormField(
+                  controller: textControl4,
                   autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(FontAwesomeIcons.wpforms),
@@ -164,13 +176,14 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  controller: textControl5,
                   autocorrect: false,
                   maxLines: 4,
                   maxLength: 300,
                   decoration: InputDecoration(
                       icon: Icon(Icons.book),
                       hintText:
-                          'Enter Campeign Breif in form \n1...\n2.. \n3..'),
+                          'Enter Campeign Breif in form \n1..\n2.. \n3..'),
                   validator: (val) => val.isEmpty ? 'Enter some data' : null,
                   onSaved: (value) {
                     setState(() {
@@ -180,6 +193,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 // SizedBox(height: 10.0),
                 TextFormField(
+                  controller: textControl6,
                   autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.aspect_ratio),
@@ -196,28 +210,27 @@ class _AddCompetitionState extends State<AddCompetition> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     SizedBox(
+                      height: 47,
                       child: RaisedButton(
-                          elevation: 10.0,
-                          highlightElevation: 30.0,
-                          disabledElevation: 10.0,
-                          focusElevation: 10.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(color: Colors.red)),
                           child: Text('Upload Image',
                               style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           color: Colors.pinkAccent[400],
                           onPressed: () => uploadImage()),
                     ),
+                    Padding(padding: EdgeInsets.only(left: 5.0)),
                     SizedBox(
-                      child: RaisedButton(
-                          elevation: 10.0,
-                          highlightElevation: 30.0,
-                          disabledElevation: 10.0,
-                          focusElevation: 10.0,
+                      width: 180.0,
+                      child: RoundedLoadingButton(
+                          controller: _btnController,
                           child: Text('Add Competition',
                               style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           color: Colors.pinkAccent[400],
@@ -240,9 +253,16 @@ class _AddCompetitionState extends State<AddCompetition> {
                                   error =
                                       'Details has been submitted now you will be redirected to HomePage';
                                   showResponse = true;
+                                  textControl1.clear();
+                                  textControl2.clear();
+                                  textControl3.clear();
+                                  textControl4.clear();
+                                  textControl5.clear();
+                                  textControl6.clear();
+                                  _btnController.success();
                                 });
                                 Timer(
-                                    Duration(seconds: 4),
+                                    Duration(seconds: 6),
                                     () => changeScreenRepacement(
                                         context, AdminHomePage()));
                               } else {
@@ -250,8 +270,11 @@ class _AddCompetitionState extends State<AddCompetition> {
                                   error =
                                       "There's some error details cant be submitted";
                                   showResponse = true;
+                                  _btnController.reset();
                                 });
                               }
+                            } else {
+                              _btnController.reset();
                             }
                           }),
                     ),

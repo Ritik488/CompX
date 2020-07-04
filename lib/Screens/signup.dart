@@ -14,6 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final RoundedLoadingButtonController _btnController =
       new RoundedLoadingButtonController();
+  bool showPass = true;
   String name;
   String phoneNo;
   String clas;
@@ -50,7 +51,6 @@ class _SignUpPageState extends State<SignUpPage> {
         setState(() {
           succes = true;
         });
-        
       }
     } else {
       _btnController.reset();
@@ -130,11 +130,10 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             Center(
                 child: succes
-                    ? Text('Signup Successful Now go and Login',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 15.0
-                    ),)
+                    ? Text(
+                        'Signup Successful Now go and Login',
+                        style: TextStyle(color: Colors.red, fontSize: 15.0),
+                      )
                     : Text("")),
             SizedBox(
               height: 10,
@@ -206,39 +205,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 20,
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 32),
-                    //   child: Material(
-                    //     elevation: 2.0,
-                    //     borderRadius: BorderRadius.all(Radius.circular(30)),
-                    //     child: TextFormField(
-                    //       onChanged: (String value) {},
-                    //       cursorColor: Colors.deepOrange,
-                    //       decoration: InputDecoration(
-                    //           hintText: "Class",
-                    //           prefixIcon: Material(
-                    //             elevation: 0,
-                    //             borderRadius:
-                    //                 BorderRadius.all(Radius.circular(30)),
-                    //             child: Icon(
-                    //               Icons.school,
-                    //               color: Colors.brown,
-                    //             ),
-                    //           ),
-                    //           border: InputBorder.none,
-                    //           contentPadding: EdgeInsets.symmetric(
-                    //               horizontal: 25, vertical: 13)),
-                    //       validator: (value) =>
-                    //           value.isEmpty ? 'Enter a valid class' : null,
-                    //       onSaved: (value) {
-                    //         clas = value ;
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -280,10 +246,22 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 2.0,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         child: TextFormField(
-                          onChanged: (String value) {},
+                          obscureText: showPass,
                           cursorColor: Colors.deepOrange,
                           decoration: InputDecoration(
                               hintText: "Password",
+                              suffixIcon: IconButton(
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: showPass == false
+                                        ? Colors.blue
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      showPass = !showPass;
+                                    });
+                                  }),
                               prefixIcon: Material(
                                 elevation: 0,
                                 borderRadius:
@@ -312,7 +290,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         padding: EdgeInsets.symmetric(horizontal: 32),
                         child: RoundedLoadingButton(
                           controller: _btnController,
-                          color: Colors.orange[600],
+                          color: Colors.pinkAccent[400],
                           child: Text(
                             "Sign Up",
                             style: TextStyle(

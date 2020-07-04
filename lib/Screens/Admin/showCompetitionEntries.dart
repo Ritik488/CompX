@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:huncha/Helper/apis.dart';
+import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Models/Admin/CompSubmissionsModel.dart';
 import 'package:huncha/Models/User/CompetitionsModel.dart';
+import 'package:huncha/Screens/Admin/compEntriesDetails.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShowEntries extends StatefulWidget {
@@ -138,7 +140,13 @@ class _ShowEntriesState extends State<ShowEntries> {
                   return Padding(
                       padding: EdgeInsets.all(10.0),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          changeScreen(
+                              context,
+                              EntryDetails(
+                                mod: snapshot.data[index],
+                              ));
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -157,9 +165,6 @@ class _ShowEntriesState extends State<ShowEntries> {
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     child: ClipRRect(
-                                      // borderRadius: BorderRadius.only(
-                                      //     topLeft: Radius.circular(20.0),
-                                      //     bottomLeft: Radius.circular(20.0)),
                                       child: Image(
                                         matchTextDirection: true,
                                         image: NetworkImage(
@@ -186,15 +191,15 @@ class _ShowEntriesState extends State<ShowEntries> {
                                         RichText(
                                           textAlign: TextAlign.left,
                                           text: TextSpan(
-                                              text: '',
+                                              text: "Participant's Name:\n",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 20.0),
+                                                  fontSize: 17.0),
                                               children: <TextSpan>[
                                                 TextSpan(
-                                                  text: snapshot.data[index]
-                                                      .competitionname,
+                                                  text: snapshot
+                                                      .data[index].username,
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15.0),
@@ -204,7 +209,7 @@ class _ShowEntriesState extends State<ShowEntries> {
                                         RichText(
                                           textAlign: TextAlign.left,
                                           text: TextSpan(
-                                              text: "Participant's Name: ",
+                                              text: "Participant's Email:\n",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
@@ -212,7 +217,7 @@ class _ShowEntriesState extends State<ShowEntries> {
                                               children: <TextSpan>[
                                                 TextSpan(
                                                   text: snapshot
-                                                      .data[index].username,
+                                                      .data[index].useremail,
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15.0),

@@ -3,6 +3,8 @@ class CompSubmissionsModel {
   String videourl;
   String competitionname;
   String username;
+  String useremail;
+  String userphoneno;
   String sId;
   String message;
   String competition;
@@ -16,6 +18,8 @@ class CompSubmissionsModel {
       this.videourl,
       this.competitionname,
       this.username,
+      this.useremail,
+      this.userphoneno,
       this.sId,
       this.message,
       this.competition,
@@ -29,6 +33,8 @@ class CompSubmissionsModel {
     videourl = json['videourl'];
     competitionname = json['competitionname'];
     username = json['username'];
+    useremail = json['useremail'];
+    userphoneno = json['userphoneno'];
     sId = json['_id'];
     message = json['message'];
     competition = json['competition'];
@@ -44,6 +50,8 @@ class CompSubmissionsModel {
     data['videourl'] = this.videourl;
     data['competitionname'] = this.competitionname;
     data['username'] = this.username;
+    data['useremail'] = this.useremail;
+    data['userphoneno'] = this.userphoneno;
     data['_id'] = this.sId;
     data['message'] = this.message;
     data['competition'] = this.competition;

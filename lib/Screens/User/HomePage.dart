@@ -86,9 +86,9 @@ class _HomePageState extends State<HomePage> {
                         highlightElevation: 30.0,
                         disabledElevation: 10.0,
                         focusElevation: 10.0,
-                        child: Text('Submit your entry',
+                        child: Text('View Ongoing Competitions',
                             style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal)),
                         color: Colors.pinkAccent[400],

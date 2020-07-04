@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   String email;
   String password;
   bool error = false;
-
+  bool showPass = true;
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           SharedPreferences pref = await SharedPreferences.getInstance();
           pref.setString('AdminEmail', email);
           Timer(Duration(seconds: 1),
-              () => changeScreenRepacement(context, AdminHomePage()));
+              () => changeScreenRepacement(context, AdminHome()));
         } else {
           Timer(Duration(seconds: 1),
               () => changeScreenRepacement(context, HomePage()));
@@ -185,8 +185,21 @@ class _LoginPageState extends State<LoginPage> {
                         child: TextFormField(
                           onChanged: (String value) {},
                           cursorColor: Colors.deepOrange,
+                          obscureText: showPass,
                           decoration: InputDecoration(
                               hintText: "Password",
+                              suffixIcon: IconButton(
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: showPass == false
+                                        ? Colors.blue
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      showPass = !showPass;
+                                    });
+                                  }),
                               prefixIcon: Material(
                                 elevation: 0,
                                 borderRadius:
@@ -215,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.symmetric(horizontal: 32),
                         child: RoundedLoadingButton(
                           controller: _btnController,
-                          color: Colors.orange[600],
+                          color: Colors.pinkAccent[400],
                           child: Text(
                             "Login",
                             style: TextStyle(
@@ -232,18 +245,18 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 20,
             ),
-            Center(
-              child: Text(
-                "FORGOT PASSWORD ?",
-                style: TextStyle(
-                    color: Colors.blue[400],
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
+            // Center(
+            //   child: Text(
+            //     "FORGOT PASSWORD ?",
+            //     style: TextStyle(
+            //         color: Colors.blue[400],
+            //         fontSize: 12,
+            //         fontWeight: FontWeight.w700),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 40,
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -251,7 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                   "Don't have an Account ? ",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.normal),
                 ),
                 InkWell(
@@ -262,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(
                             color: Colors.blue[400],
                             fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                            fontSize: 15,
                             decoration: TextDecoration.underline))),
               ],
             ),

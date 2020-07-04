@@ -23,38 +23,9 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
                   fit: BoxFit.fill,
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                  image: NetworkImage(
-                      'https://image.shutterstock.com/image-photo/admin-login-sign-made-wood-260nw-1738232339.jpg'),
+                  image: AssetImage('assets/admin2.jpg'),
                 ),
               ),
-              child: Container(
-                  // alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'CompX',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 40, color: Colors.black),
-                        ),
-                        // Text(
-                        //   'Welcome',
-                        //   style:
-                        //       TextStyle(fontSize: 30, color: Colors.pink[800]),
-                        // ),
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: <Widget>[
-                        //     Text(
-                        //       'Admin',
-                        //       style:
-                        //           TextStyle(fontSize: 15, color: Colors.black),
-                        //     ),
-                        //   ],
-                        // )
-                      ])),
             ),
             ListTile(
               trailing: Icon(Icons.exit_to_app, color: Colors.red),
