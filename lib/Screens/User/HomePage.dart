@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gradients/flutter_gradients.dart';
 import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Models/User/MainUser.dart';
 import 'package:huncha/Screens/User/Competitions.dart';
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink[900],
+          backgroundColor: Color(0xff3c40c6),
           elevation: 10.0,
           title: Text(
             'CompX',
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 18.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal)),
-                        color: Colors.pinkAccent[400],
+                        color: Color(0xff05c46b),
                         onPressed: () => changeScreen(
                             context,
                             Competitions(

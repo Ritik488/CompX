@@ -4,6 +4,7 @@ import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Models/User/CompetitionsModel.dart';
 import 'package:huncha/Screens/User/UploadEntries.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class CompDescription extends StatefulWidget {
   final CompetitionsModel mod;
@@ -15,6 +16,21 @@ class CompDescription extends StatefulWidget {
 }
 
 class _CompDescriptionState extends State<CompDescription> {
+  bool isButtonDisabled = false;
+  var nowDate = DateTime.now();
+  var difference;
+
+  @override
+  void initState() {
+    super.initState();
+
+    print(nowDate);
+    var x = DateFormat("dd-MM-yyyy", "en_US").parse(widget.mod.enddate);
+    print(x);
+    difference = nowDate.difference(x).inDays;
+    print(difference);
+  }
+
   _launchEmail() async {
     // await launch(widget.mod.urls.toString());
     if (await canLaunch(widget.mod.urls)) {
@@ -28,7 +44,7 @@ class _CompDescriptionState extends State<CompDescription> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Color(0xff3c40c6),
         elevation: 10.0,
       ),
       body: _buildBody(context),
@@ -105,26 +121,44 @@ class _CompDescriptionState extends State<CompDescription> {
               },
             ),
           ),
-          SizedBox(
-            height: 30.0,
-          ),
-          SizedBox(
-              height: 60.0,
-              width: MediaQuery.of(context).size.width,
-              child: RaisedButton(
-                elevation: 10.0,
-                highlightElevation: 30.0,
-                disabledElevation: 10.0,
-                focusElevation: 10.0,
-                child: Text('Add your details',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal)),
-                color: Colors.pinkAccent[400],
-                onPressed: () => changeScreen(context,
-                    EntriesPage(mod: widget.mod, userId: widget.userId)),
-              ))
+          difference >= 0
+              ? SizedBox(
+                  height: 30.0,
+                )
+              : SizedBox(
+                  height: 0.0,
+                ),
+          difference >= 0
+              ? Text("This Competition has ended you can't submit entries",
+                  style: TextStyle(color: Colors.red, fontSize: 20.0))
+              : Text(''),
+          difference < 0
+              ? SizedBox(
+                  height: 30.0,
+                )
+              : SizedBox(height: 0.0),
+          difference < 0
+              ? SizedBox(
+                  height: 60.0,
+                  width: MediaQuery.of(context).size.width,
+                  child: RaisedButton(
+                      elevation: 10.0,
+                      highlightElevation: 30.0,
+                      disabledElevation: 10.0,
+                      focusElevation: 10.0,
+                      child: Text('Add your details',
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal)),
+                      color: Color(0xff05c46b),
+                      onPressed: () {
+                        changeScreen(
+                            context,
+                            EntriesPage(
+                                mod: widget.mod, userId: widget.userId));
+                      }))
+              : Text('')
         ],
       ),
     );

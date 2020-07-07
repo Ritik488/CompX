@@ -36,7 +36,7 @@ class _ShowUsersState extends State<ShowUsers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Color(0xff3c40c6),
         title: Text('All Users'),
         centerTitle: true,
         elevation: 10.0,

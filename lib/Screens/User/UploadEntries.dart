@@ -9,6 +9,7 @@ import 'package:huncha/Screens/User/HomePage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:loading/loading.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -29,6 +30,7 @@ class _EntriesPageState extends State<EntriesPage> {
   TextEditingController textControl1 = TextEditingController();
   TextEditingController textControl2 = TextEditingController();
 
+  String compImageName;
   var imageUrl;
   bool isloading = false;
   String videoUrl;
@@ -52,7 +54,9 @@ class _EntriesPageState extends State<EntriesPage> {
         "file": await MultipartFile.fromFile(
           image.path,
           contentType: new MediaType("image", "jpg"),
+          filename: compImageName,
         ),
+        "public_id": compImageName,
         "upload_preset": "project78",
         "cloud_name": "dcsqiv7je",
       });
@@ -74,11 +78,17 @@ class _EntriesPageState extends State<EntriesPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    compImageName = widget.mod.name.trim();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Details'),
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Color(0xff3c40c6),
       ),
       body: _buildBody(context),
     );
@@ -110,7 +120,7 @@ class _EntriesPageState extends State<EntriesPage> {
                 Center(
                   child: CircleAvatar(
                     radius: 100,
-                    backgroundColor: Colors.pink[900],
+                    backgroundColor: Colors.blue,
                     backgroundImage: imageUrl != null
                         ? NetworkImage(imageUrl, scale: 0.3)
                         : null,
@@ -162,15 +172,16 @@ class _EntriesPageState extends State<EntriesPage> {
                     SizedBox(
                       height: 50.0,
                       child: RaisedButton(
+                          elevation: 3.0,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(color: Colors.red)),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
                           child: Text('Choose Image',
                               style: TextStyle(
                                   fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
-                          color: Colors.pinkAccent[400],
+                          color: Color(0xff05c46b),
                           onPressed: () => uploadImage()),
                     ),
                     SizedBox(
@@ -179,19 +190,24 @@ class _EntriesPageState extends State<EntriesPage> {
                     SizedBox(
                       width: 160.0,
                       child: RoundedLoadingButton(
+                          animateOnTap: true,
                           controller: _btnController,
                           child: Text('Submit Entries',
                               style: TextStyle(
                                   fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
-                          color: Colors.pinkAccent[400],
+                          color: Color(0xff05c46b),
                           onPressed: () async {
                             print(widget.mod.sId);
                             print(widget.userId);
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
                               String status;
+                              DateTime now = DateTime.now();
+                              String date =
+                                  DateFormat("dd-MM-yyyy").format(now);
+                              String time = DateFormat("H:m:s").format(now);
                               if (imageUrl == null) {
                                 String dummyImage =
                                     'https://res.cloudinary.com/dcsqiv7je/image/upload/v1593545859/do%20not%20delete/no_image_available_e1tinz.png';
@@ -200,10 +216,18 @@ class _EntriesPageState extends State<EntriesPage> {
                                     widget.userId,
                                     dummyImage,
                                     videoUrl,
-                                    message);
+                                    message,
+                                    date,
+                                    time);
                               } else {
-                                status = await submitEntries(widget.mod.sId,
-                                    widget.userId, imageUrl, videoUrl, message);
+                                status = await submitEntries(
+                                    widget.mod.sId,
+                                    widget.userId,
+                                    imageUrl,
+                                    videoUrl,
+                                    message,
+                                    date,
+                                    time);
                               }
 
                               print(status);

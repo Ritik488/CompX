@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.symmetric(horizontal: 32),
                         child: RoundedLoadingButton(
                           controller: _btnController,
-                          color: Colors.pinkAccent[400],
+                          color: Colors.orange[700],
                           child: Text(
                             "Login",
                             style: TextStyle(

@@ -9,6 +9,7 @@ import 'package:huncha/Screens/Admin/adminHome.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:loading/loading.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -28,6 +29,8 @@ class _AddCompetitionState extends State<AddCompetition> {
   TextEditingController textControl5 = TextEditingController();
   TextEditingController textControl6 = TextEditingController();
   var imageUrl;
+  DateTime start;
+  DateTime end;
   bool isloading = false;
   bool showResponse = false;
   String error = '';
@@ -57,6 +60,7 @@ class _AddCompetitionState extends State<AddCompetition> {
           image.path,
           contentType: new MediaType("image", "jpg"),
         ),
+        "public_id": compName,
         "upload_preset": "project78",
         "cloud_name": "dcsqiv7je",
       });
@@ -82,7 +86,7 @@ class _AddCompetitionState extends State<AddCompetition> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Competition'),
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Color(0xff3c40c6),
       ),
       body: _buildBody(context),
     );
@@ -98,7 +102,7 @@ class _AddCompetitionState extends State<AddCompetition> {
               children: <Widget>[
                 Center(
                   child: CircleAvatar(
-                    radius: 60,
+                    radius: 30,
                     backgroundColor: Colors.pink[900],
                     backgroundImage: imageUrl != null
                         ? NetworkImage(imageUrl, scale: 0.3)
@@ -107,7 +111,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                         ? !isloading
                             ? Icon(
                                 Icons.person,
-                                size: 100,
+                                size: 30,
                                 color: Colors.white,
                               )
                             : Loading(
@@ -120,12 +124,14 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 showResponse
                     ? Text(error,
-                        style: TextStyle(color: Colors.red, fontSize: 20.0))
+                        style: TextStyle(color: Colors.green, fontSize: 20.0))
                     : Text(''),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  autofocus: false,
                   controller: textControl1,
-                  autocorrect: false,
+                  focusNode: FocusNode(canRequestFocus: false),
+                  // autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(FontAwesomeIcons.adobe),
                       hintText: 'Enter competition name'),
@@ -136,8 +142,10 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 SizedBox(height: 30.0),
                 TextFormField(
+                  autofocus: false,
                   controller: textControl2,
-                  autocorrect: false,
+                  focusNode: FocusNode(canRequestFocus: false),
+                  // autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.art_track),
                       hintText: 'Enter mini description'),
@@ -148,8 +156,10 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 SizedBox(height: 10.0),
                 TextFormField(
+                  autofocus: false,
+                  focusNode: FocusNode(canRequestFocus: false),
                   controller: textControl3,
-                  autocorrect: false,
+                  // autocorrect: false,
                   maxLines: 2,
                   maxLength: 300,
                   decoration: InputDecoration(
@@ -164,8 +174,10 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 // SizedBox(height: 5.0),
                 TextFormField(
+                  autofocus: false,
                   controller: textControl4,
-                  autocorrect: false,
+                  focusNode: FocusNode(canRequestFocus: false),
+                  // autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(FontAwesomeIcons.wpforms),
                       hintText: 'Enter important message'),
@@ -176,8 +188,10 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  autofocus: false,
+                  focusNode: FocusNode(canRequestFocus: false),
                   controller: textControl5,
-                  autocorrect: false,
+                  // autocorrect: false,
                   maxLines: 4,
                   maxLength: 300,
                   decoration: InputDecoration(
@@ -193,8 +207,10 @@ class _AddCompetitionState extends State<AddCompetition> {
                 ),
                 // SizedBox(height: 10.0),
                 TextFormField(
+                  autofocus: false,
+                  focusNode: FocusNode(canRequestFocus: false),
                   controller: textControl6,
-                  autocorrect: false,
+                  // autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.aspect_ratio),
                       hintText: 'Enter FAQ Url '),
@@ -204,6 +220,68 @@ class _AddCompetitionState extends State<AddCompetition> {
                       videoUrl = value;
                     });
                   },
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Select Competition Duration:',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            FlatButton(
+                              child: Text("select start Date"),
+                              onPressed: () {
+                                showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2050))
+                                    .then((date) {
+                                  setState(() {
+                                    start = date;
+                                  });
+                                });
+                              },
+                            ),
+                            start == null
+                                ? Text('_______________')
+                                : Text(DateFormat("dd-MM-yyyy").format(start))
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            FlatButton(
+                              child: Text("select end Date"),
+                              onPressed: () {
+                                showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2050))
+                                    .then((date) {
+                                  setState(() {
+                                    end = date;
+                                  });
+                                });
+                              },
+                            ),
+                            end == null
+                                ? Text('_______________')
+                                : Text(DateFormat("dd-MM-yyyy").format(end))
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(height: 15.0),
                 Row(
@@ -246,7 +324,9 @@ class _AddCompetitionState extends State<AddCompetition> {
                                   miniDesc,
                                   compCampaeign,
                                   videoUrl,
-                                  imageUrl);
+                                  imageUrl,
+                                  DateFormat("dd-MM-yyyy").format(start),
+                                  DateFormat("dd-MM-yyyy").format(end));
                               print(status);
                               if (status.compareTo(200.toString()) == 0) {
                                 setState(() {

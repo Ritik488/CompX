@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Screens/User/Competitions.dart';
+import 'package:huncha/Screens/User/mysubmissions.dart';
 import 'package:huncha/Screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -84,6 +85,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 changeScreen(
                     context,
                     Competitions(
+                      userId: widget.userId,
+                    ));
+              },
+            ),
+            ListTile(
+              trailing: Icon(Icons.access_time, color: Colors.green[800]),
+              title: Text('View my submissions'),
+              onTap: () {
+                Navigator.pop(context);
+                changeScreen(
+                    context,
+                    MySubmission(
                       userId: widget.userId,
                     ));
               },

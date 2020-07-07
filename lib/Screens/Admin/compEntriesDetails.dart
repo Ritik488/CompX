@@ -25,7 +25,7 @@ class _EntryDetailsState extends State<EntryDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[800],
+        backgroundColor: Color(0xff3c40c6),
         elevation: 10.0,
         title: Text('User Submission'),
         centerTitle: true,

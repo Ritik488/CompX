@@ -43,16 +43,21 @@ Future<String> signupHttp(name, email, password, phoneno) async {
 }
 
 Future<String> submitEntries(
-    compId, userId, imageUrl, videoUrl, message) async {
-  var response = await http.post(SUBMITENTRY + compId + '/' + userId,
-      body: {"message": message, "imageurl": imageUrl, "videourl": videoUrl});
+    compId, userId, imageUrl, videoUrl, message, datee, timee) async {
+  var response = await http.post(SUBMITENTRY + compId + '/' + userId, body: {
+    "message": message,
+    "imageurl": imageUrl,
+    "videourl": videoUrl,
+    "datee": datee,
+    "timee": timee
+  });
   print(response.statusCode);
   print(response.body);
   return response.statusCode.toString();
 }
 
 Future<String> addCompetition(compName, compDesc, compImp, compMiniDesc,
-    compBrief, faqurl, imageurl) async {
+    compBrief, faqurl, imageurl, startDate, endDate) async {
   var response = await http.post(COMPETITIONS, body: {
     "name": compName,
     "description": compDesc,
@@ -60,9 +65,23 @@ Future<String> addCompetition(compName, compDesc, compImp, compMiniDesc,
     "minidesc": compMiniDesc,
     "campaignbrief": compBrief,
     "urls": faqurl,
-    "images": imageurl
+    "images": imageurl,
+    "startdate": startDate,
+    "enddate": endDate
   });
   print(response.statusCode);
   print(response.body);
   return response.statusCode.toString();
+}
+
+Future<bool> deleteComp(compId) async {
+  var response = await http.delete(DELETECOMP + compId);
+
+  print(response.statusCode);
+  print(response.body);
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
 }

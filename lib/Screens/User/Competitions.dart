@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -48,7 +47,7 @@ class _CompetitionsState extends State<Competitions> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink[900],
+          backgroundColor: Color(0xff3c40c6),
           elevation: 5.0,
           title: Text(
             'Competitions',
@@ -134,7 +133,7 @@ class _CompetitionsState extends State<Competitions> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -150,7 +149,8 @@ class _CompetitionsState extends State<Competitions> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 15.0),
                       child: InkWell(
                         onTap: () async {
                           SharedPreferences pref =
@@ -174,11 +174,23 @@ class _CompetitionsState extends State<Competitions> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
+                            boxShadow: [
+                              // color: Colors.white, //background color of box
+                              BoxShadow(
+                                color: Colors.grey[400],
+                                blurRadius: 20.0, // soften the shadow
+                                spreadRadius: 2.0, //extend the shadow
+                                offset: Offset(
+                                  15.0, // Move to right 10  horizontally
+                                  15.0, // Move to bottom 10 Vertically
+                                ),
+                              )
+                            ],
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0)),
                             color: (index % 2 == 0)
-                                ? Colors.pink[400]
-                                : Colors.pink[100],
+                                ? Colors.tealAccent[700]
+                                : Colors.purple[200],
                           ),
                           child: Row(
                             children: <Widget>[

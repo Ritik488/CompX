@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
 import 'package:huncha/Helper/navigation.dart';
@@ -51,6 +52,8 @@ class _SignUpPageState extends State<SignUpPage> {
         setState(() {
           succes = true;
         });
+        Timer(Duration(seconds: 2),
+            () => changeScreenRepacement(context, LoginPage()));
       }
     } else {
       _btnController.reset();
@@ -131,8 +134,8 @@ class _SignUpPageState extends State<SignUpPage> {
             Center(
                 child: succes
                     ? Text(
-                        'Signup Successful Now go and Login',
-                        style: TextStyle(color: Colors.red, fontSize: 15.0),
+                        'Signup Successful',
+                        style: TextStyle(color: Colors.green, fontSize: 20.0),
                       )
                     : Text("")),
             SizedBox(

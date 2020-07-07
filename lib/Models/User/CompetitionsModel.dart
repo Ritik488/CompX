@@ -3,6 +3,8 @@ class CompetitionsModel {
   String campaignbrief;
   String urls;
   String images;
+  String startdate;
+  String enddate;
   String sId;
   String name;
   String description;
@@ -16,6 +18,8 @@ class CompetitionsModel {
       this.campaignbrief,
       this.urls,
       this.images,
+      this.startdate,
+      this.enddate,
       this.sId,
       this.name,
       this.description,
@@ -29,6 +33,8 @@ class CompetitionsModel {
     campaignbrief = json['campaignbrief'];
     urls = json['urls'];
     images = json['images'];
+    startdate = json['startdate'];
+    enddate = json['enddate'];
     sId = json['_id'];
     name = json['name'];
     description = json['description'];
@@ -44,6 +50,8 @@ class CompetitionsModel {
     data['campaignbrief'] = this.campaignbrief;
     data['urls'] = this.urls;
     data['images'] = this.images;
+    data['startdate'] = this.startdate;
+    data['enddate'] = this.enddate;
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['description'] = this.description;

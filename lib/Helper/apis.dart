@@ -29,6 +29,16 @@ const SHOWALLUSERS =
     BASEURL + "/get/allusers"; //(post request to view all users in database)
 //  (body:NIL)
 
+//4.)
+const DELETECOMP = BASEURL +
+    "/deletethis/competition/"; //+competitionId (DELETE request to delete competition and their entries in database)
+//  (body:NIL)
+
+//5.)
+const GETDELCOMP = BASEURL +
+    "/get/recentely/deleted"; // (get request to view all recentely deleted competition)
+//  (body:NIL)
+
 // III) User Only
 
 // 1.)
@@ -45,6 +55,6 @@ const SUBMITENTRY = BASEURL +
 
 // 3.)
 const VIEWSUBMISSION = BASEURL +
-    "/view/mysubmission/+userId"; //(post request to fetch user submission. Pass userId in the URL)
+    "/view/mysubmission/"; //+userId (post request to fetch user submission. Pass userId in the URL)
 // (body:NIL)
 // {Test userId => Ritik:- 5ef49cdd388ac40024a44704, Lakshy:- 5ef49dd6388ac40024a44706 }

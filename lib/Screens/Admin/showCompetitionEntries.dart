@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:huncha/Helper/apis.dart';
 import 'package:huncha/Helper/navigation.dart';
+import 'package:huncha/Helper/subDesign.dart';
 import 'package:huncha/Models/Admin/CompSubmissionsModel.dart';
 import 'package:huncha/Models/User/CompetitionsModel.dart';
 import 'package:huncha/Screens/Admin/compEntriesDetails.dart';
@@ -40,7 +41,7 @@ class _ShowEntriesState extends State<ShowEntries> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[800],
+        backgroundColor: Color(0xff3c40c6),
         title: Text(widget.mod.name),
         centerTitle: true,
         elevation: 10.0,
@@ -134,106 +135,30 @@ class _ShowEntriesState extends State<ShowEntries> {
               ),
             );
           } else {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: InkWell(
-                        onTap: () {
-                          changeScreen(
-                              context,
-                              EntryDetails(
-                                mod: snapshot.data[index],
-                              ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                bottomLeft: Radius.circular(20.0)),
-                          ),
-                          child: Card(
-                            color: (index % 2 == 0)
-                                ? Colors.blue[300]
-                                : Colors.pink[200],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(0),
-                                  child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: ClipRRect(
-                                      child: Image(
-                                        matchTextDirection: true,
-                                        image: NetworkImage(
-                                          snapshot.data[index].imageurl == ""
-                                              ? 'https://www.kreedon.com/wp-content/uploads/2019/05/capturing-Chess-Kreedon-1280x720.jpg'
-                                              : snapshot.data[index].imageurl,
-                                        ),
-                                        height: 100.0,
-                                        width: 100.0,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        RichText(
-                                          textAlign: TextAlign.left,
-                                          text: TextSpan(
-                                              text: "Participant's Name:\n",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17.0),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: snapshot
-                                                      .data[index].username,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15.0),
-                                                )
-                                              ]),
-                                        ),
-                                        RichText(
-                                          textAlign: TextAlign.left,
-                                          text: TextSpan(
-                                              text: "Participant's Email:\n",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17.0),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: snapshot
-                                                      .data[index].useremail,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15.0),
-                                                )
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ));
-                });
+            return Container(
+              padding: EdgeInsets.all(10.0),
+              child: GridView.builder(
+                  itemCount: snapshot.data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 15),
+                  itemBuilder: (context, index) {
+                    return GridTile(
+                        child: GestureDetector(
+                      onTap: () => changeScreen(
+                          context,
+                          EntryDetails(
+                            mod: snapshot.data[index],
+                          )),
+                      child: RecDesign(
+                        imgURL: snapshot.data[index].imageurl,
+                        title: snapshot.data[index].username,
+                        email: snapshot.data[index].useremail,
+                      ),
+                    ));
+                  }),
+            );
           }
         },
       ),
