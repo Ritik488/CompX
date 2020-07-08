@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Screens/Admin/DeleteComp.dart';
+import 'package:huncha/Screens/Admin/RecentDeletes.dart';
 import 'package:huncha/Screens/Admin/addnewComp.dart';
 import 'package:huncha/Screens/Admin/showUsers.dart';
 import 'package:huncha/Screens/User/Competitions.dart';
@@ -25,9 +26,17 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Color(0xff3c40c6),
         title: Text('Admin Panel'),
@@ -46,6 +55,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
         ],
       ),
       // drawer: AdminDrawerWidget(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.business_center),
+        onPressed: () => changeScreen(context, RecentDel()),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -81,7 +94,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               fontWeight: FontWeight.normal)),
                       color: Color(0xff05c46b),
                       onPressed: () {
-                        changeScreen(context, AddCompetition());
+                        // changeScreen(context, AddCompetition());
+                        _navigateAndDisplaySelection(context, AddCompetition());
                       })),
               SizedBox(height: 30.0),
               SizedBox(
@@ -130,11 +144,41 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               color: Colors.white,
                               fontWeight: FontWeight.normal)),
                       color: Color(0xff05c46b),
-                      onPressed: () => changeScreen(context, DeleteComp()))),
+                      onPressed: () {
+                        _navigateAndDisplaySelection(context, DeleteComp());
+                      })),
             ],
           ),
         ),
       ),
     );
+  }
+
+  _navigateAndDisplaySelection(BuildContext context, Widget widget) async {
+    final result = await Navigator.push(
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => widget,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                      begin: const Offset(-1.0, 0.0), end: Offset.zero)
+                  .animate(animation),
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(-1.0, 0.0),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
+            );
+          }),
+    );
+    _scaffoldKey.currentState
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: result != null ? Text("$result") : Text('Not interacted'),
+        duration: Duration(seconds: 1),
+      ));
   }
 }

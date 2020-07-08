@@ -103,7 +103,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                 Center(
                   child: CircleAvatar(
                     radius: 30,
-                    backgroundColor: Colors.pink[900],
+                    backgroundColor: Colors.blue,
                     backgroundImage: imageUrl != null
                         ? NetworkImage(imageUrl, scale: 0.3)
                         : null,
@@ -290,15 +290,16 @@ class _AddCompetitionState extends State<AddCompetition> {
                     SizedBox(
                       height: 47,
                       child: RaisedButton(
+                          elevation: 4.0,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(color: Colors.red)),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
                           child: Text('Upload Image',
                               style: TextStyle(
                                   fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
-                          color: Colors.pinkAccent[400],
+                          color: Color(0xff05c46b),
                           onPressed: () => uploadImage()),
                     ),
                     Padding(padding: EdgeInsets.only(left: 5.0)),
@@ -311,7 +312,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                                   fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
-                          color: Colors.pinkAccent[400],
+                          color: Color(0xff05c46b),
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
@@ -341,10 +342,7 @@ class _AddCompetitionState extends State<AddCompetition> {
                                   textControl6.clear();
                                   _btnController.success();
                                 });
-                                Timer(
-                                    Duration(seconds: 6),
-                                    () => changeScreenRepacement(
-                                        context, AdminHomePage()));
+                                Navigator.pop(context, 'Competition Added');
                               } else {
                                 setState(() {
                                   error =

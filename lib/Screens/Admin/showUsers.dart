@@ -141,8 +141,8 @@ class _ShowUsersState extends State<ShowUsers> {
                           // height: 80.0,
                           child: Card(
                             color: (index % 2 == 0)
-                                ? Colors.blue[300]
-                                : Colors.pink[200],
+                                ? Colors.tealAccent[700]
+                                : Colors.purple[200],
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(

@@ -1,12 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:huncha/Helper/RequestHttp.dart';
 import 'package:huncha/Helper/apis.dart';
+import 'package:huncha/Helper/navigation.dart';
 import 'package:huncha/Models/User/CompetitionsModel.dart';
+import 'package:huncha/Screens/Admin/adminHome.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DeleteComp extends StatefulWidget {
+  const DeleteComp({Key key}) : super(key: key);
   @override
   _DeleteCompState createState() => _DeleteCompState();
 }
@@ -35,13 +39,11 @@ class _DeleteCompState extends State<DeleteComp> {
   }
 
   bool delYes = false;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: Color(0xff3c40c6),
           elevation: 5.0,
@@ -250,17 +252,25 @@ class _DeleteCompState extends State<DeleteComp> {
                                                                           .data[
                                                                               index]
                                                                           .sId);
+
                                                                   setState(() {
                                                                     snapshot
                                                                         .data
                                                                         .remove(
                                                                             index);
                                                                   });
-                                                                  _scaffoldKey
-                                                                      .currentState
-                                                                      .showSnackBar(SnackBar(
-                                                                          content:
-                                                                              Text(snapshot.data[index].name + ' is deleted')));
+                                                                  Navigator.pop(
+                                                                      context,
+                                                                      snapshot.data[index]
+                                                                              .name +
+                                                                          ' is deleted');
+                                                                  // Timer(
+                                                                  //     Duration(
+                                                                  //         milliseconds:
+                                                                  //             100),
+                                                                  //     () => changeScreenRepacement(
+                                                                  //         context,
+                                                                  //         AdminHomePage()));
                                                                 },
                                                                 child: Text(
                                                                   "YES",
