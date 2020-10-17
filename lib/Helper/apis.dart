@@ -1,3 +1,4 @@
+// Backend APIs
 // list of endpoints:-
 
 const BASEURL = 'https://project78.herokuapp.com/api';
@@ -58,3 +59,8 @@ const VIEWSUBMISSION = BASEURL +
     "/view/mysubmission/"; //+userId (post request to fetch user submission. Pass userId in the URL)
 // (body:NIL)
 // {Test userId => Ritik:- 5ef49cdd388ac40024a44704, Lakshy:- 5ef49dd6388ac40024a44706 }
+
+// 1.)
+const SINGLECOMPETITIONVIEW = BASEURL +
+    "/get/competition/:id"; //(get request to view all competition in database)
+//  (body:NIL)
