@@ -52,6 +52,7 @@ Future<String> submitEntries(
     "timee": timee
   });
   print(response.statusCode);
+  print(response.json);
   print(response.body);
   return response.statusCode.toString();
 }
